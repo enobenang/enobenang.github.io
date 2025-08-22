@@ -78,13 +78,16 @@ h1 {
 </head>
   <body>
 <article>
-  <h1>Copy code button (client side)</h1>
-   <h2>source: https://www.roboleary.net/2022/01/13/copy-code-to-clipboard-blog</h2>
-  <p>Shell</p>
+  <h2>RDP</h2>
+  
+  <h1>Shell</h1>
+   
 <pre tabindex="0" class="shiki" style="background-color: #272822"><code><span class="line"><span style="color: #F8F8F2">
   docker run --privileged --shm-size 1g -d -p 8080:10000 -e VNC_PASSWD=password -e PORT=10000 -e AUDIO_PORT=1699 -e WEBSOCKIFY_PORT=6900 -e VNC_PORT=5900 -e SCREEN_WIDTH=1024 -e SCREEN_HEIGHT=768 -e SCREEN_DEPTH=24 thuonghai2711/ubuntu-novnc-pulseaudio:22.04
 </span></span></code></pre>
-    <p>NoVNC</p>
+  
+  <h1>NoVNC</h1>
+
 <pre tabindex="0" class="shiki" style="background-color: #272822"><code><span class="line" style="color: #F8F8F2">
   sudo apt update
 
@@ -93,14 +96,6 @@ h1 {
   sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
 </span></code></pre>
 
-
-  <p>Here lies a HTML code block that overflows, the sticky button ensures the button is always visible.</p>
-
-<pre tabindex="0" style="background-color: #272822"><code><span class="line"><span style="color: #F8F8F2">&lt;</span><span style="color: #F92672">div</span><span style="color: #F8F8F2">&gt;long text to show overflow and how you want to handle it&lt;/</span><span style="color: #F92672">div</span><span style="color: #F8F8F2">&gt;</span></span></code></pre>
-
-  <p>Here lies a <code>pre</code> block that does not contain a <code>code</code> element. You can see it does <em>not</em> have a copy button, as expected! Huzzah!</p>
-
-  <pre style="border: 1px dashed lightgrey;">This is a pre block without code.</pre>
 </article>
 <script>
   let blocks = document.querySelectorAll("pre:has(code)");
