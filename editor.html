@@ -4,6 +4,16 @@
     <title>Simple Text Editor</title>
 </head>
 <body>
+
+    <label for="template-select">Pilih Template:</label>
+    <select id="template-select">
+        <option value="">-- Pilih salah satu --</option>
+        <option value="surat-bisnis">Surat Bisnis</option>
+        <option value="laporan-mingguan">Laporan Mingguan</option>
+        <option value="catatan-rapat">Catatan Rapat</option>
+    </select>
+    <br><br>
+
     <label for="filename">Nama File:</label>
     <input type="text" id="filename" value="my_document.html"><br><br>
 
@@ -11,32 +21,95 @@
     <button onclick="saveFile()">Simpan File</button>
 
     <script>
+        const templates = {
+            'surat-bisnis': `[Nama Perusahaan]
+[Alamat Perusahaan]
+[Kota, Kode Pos]
+
+Tanggal: [Tanggal]
+
+Kepada Yth.
+[Nama Penerima]
+[Jabatan Penerima]
+[Alamat Penerima]
+
+Perihal: [Judul Surat]
+
+Dengan hormat,
+
+Melalui surat ini, kami ingin menyampaikan...
+
+Hormat kami,
+
+[Nama Anda]
+[Jabatan Anda]`,
+
+            'laporan-mingguan': `LAPORAN MINGGUAN
+Periode: [Tanggal Awal] - [Tanggal Akhir]
+
+1. Pencapaian Minggu Ini:
+- [Poin 1]
+- [Poin 2]
+- [Poin 3]
+
+2. Rencana Minggu Depan:
+- [Poin 1]
+- [Poin 2]
+- [Poin 3]
+
+3. Kendala/Hambatan:
+- [Sebutkan kendala jika ada]`,
+
+            'catatan-rapat': `CATATAN RAPAT
+Tanggal: [Tanggal Rapat]
+Waktu: [Waktu Rapat]
+Peserta: [Daftar nama peserta]
+
+Agenda:
+1. [Agenda 1]
+2. [Agenda 2]
+3. [Agenda 3]
+
+Hasil Diskusi:
+- [Poin diskusi 1]
+- [Poin diskusi 2]
+
+Tindakan Lanjutan (Action Items):
+- [Tugas 1] - Penanggung Jawab: [Nama] - Batas Waktu: [Tanggal]
+- [Tugas 2] - Penanggung Jawab: [Nama] - Batas Waktu: [Tanggal]`
+        };
+
+        const editor = document.getElementById('editor');
+        const templateSelect = document.getElementById('template-select');
+        const filenameInput = document.getElementById('filename');
+
+        templateSelect.addEventListener('change', (event) => {
+            const selectedTemplateKey = event.target.value;
+            if (templates[selectedTemplateKey]) {
+                editor.value = templates[selectedTemplateKey];
+                filenameInput.value = selectedTemplateKey.replace(/-/g, '_') + '.html';
+            } else {
+                editor.value = '';
+            }
+        });
+
         function saveFile() {
-            // Ambil konten dari editor
-            const editorContent = document.getElementById('editor').value;
-
-            // Ambil nama file dari input teks
-            const filenameInput = document.getElementById('filename').value;
-
-            // Jika input nama file kosong, gunakan nama default
-            const filename = filenameInput || 'my_document.html';
-
-            // Buat objek Blob dari konten teks
-            const blob = new Blob([editorContent], { type: 'text/plain' });
-
-            // Buat elemen 'a' untuk mengunduh file
+            const editorContent = editor.value;
+            // Ubah nama file default menjadi .html
+            const filename = filenameInput.value || 'my_document.html'; 
+            
+            // Ubah MIME type menjadi 'text/html' untuk file HTML
+            const blob = new Blob([editorContent], { type: 'text/html' }); 
+            
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = filename; // Gunakan nama file dari input
-            
-            // Simulasikan klik untuk memulai unduhan
+            a.download = filename; 
             document.body.appendChild(a);
             a.click();
-            
-            // Bersihkan objek dan URL yang sudah tidak diperlukan
             document.body.removeChild(a);
             URL.revokeObjectURL(a.href);
         }
     </script>
+
 </body>
 </html>
