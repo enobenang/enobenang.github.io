@@ -4,18 +4,36 @@
     <title>Simple Text Editor</title>
 </head>
 <body>
+    <label for="filename">Nama File:</label>
+    <input type="text" id="filename" value="my_document.html"><br><br>
+
     <textarea id="editor" rows="20" cols="80"></textarea><br>
-    <button onclick="saveFile()">Save File</button>
+    <button onclick="saveFile()">Simpan File</button>
 
     <script>
         function saveFile() {
+            // Ambil konten dari editor
             const editorContent = document.getElementById('editor').value;
-            const blob = new Blob([editorContent], { type: 'text/plain' }); // Or 'text/html' for HTML files
+
+            // Ambil nama file dari input teks
+            const filenameInput = document.getElementById('filename').value;
+
+            // Jika input nama file kosong, gunakan nama default
+            const filename = filenameInput || 'my_document.html';
+
+            // Buat objek Blob dari konten teks
+            const blob = new Blob([editorContent], { type: 'text/plain' });
+
+            // Buat elemen 'a' untuk mengunduh file
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'my_document.txt'; // Change filename and extension as needed
+            a.download = filename; // Gunakan nama file dari input
+            
+            // Simulasikan klik untuk memulai unduhan
             document.body.appendChild(a);
             a.click();
+            
+            // Bersihkan objek dan URL yang sudah tidak diperlukan
             document.body.removeChild(a);
             URL.revokeObjectURL(a.href);
         }
