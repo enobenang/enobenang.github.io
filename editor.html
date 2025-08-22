@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Text Editor</title>
+</head>
+<body>
+    <textarea id="editor" rows="20" cols="80"></textarea><br>
+    <button onclick="saveFile()">Save File</button>
+
+    <script>
+        function saveFile() {
+            const editorContent = document.getElementById('editor').value;
+            const blob = new Blob([editorContent], { type: 'text/plain' }); // Or 'text/html' for HTML files
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'my_document.txt'; // Change filename and extension as needed
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        }
+    </script>
+</body>
+</html>
