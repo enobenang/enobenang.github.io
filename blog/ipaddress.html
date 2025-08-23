@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Public IP Address</title>
+</head>
+<body>
+    <h1>Your Public IP Address:</h1>
+    <p id="ip-display">Loading...</p>
+
+    <script type="application/javascript">
+        function getIP(json) {
+            document.getElementById("ip-display").innerText = json.ip;
+        }
+    </script>
+    <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+</body>
+</html>
