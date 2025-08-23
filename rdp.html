@@ -1,131 +1,250 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>
-RDP    
-  </title>
-<style>
-  /* Code blocks */
-pre:has(code) {
-  position: relative;
+    <!-- Combined title for the page -->
+    <title>RDP & Your Public IP</title>
+    <!-- Add viewport for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Code blocks */
+        pre:has(code) {
+            position: relative;
+            /* add scrollbar if there is horizontal overflow */
+            overflow-y: auto;
+            padding-inline: 0.5rem;
+            padding-block-end: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 0.25rem;
+            background-color: #272822; /* Set background color for the code block */
+        }
 
-  /* add scrollbar if there is horizontal overflow */
-  overflow-y: auto;
+        /* The copy button */
+        pre:has(code) button {
+            /* occupy full line */
+            display: block;
+            position: sticky;
+            top: 0;
+            left: 0;
+            margin-block: 0.5rem;
+            font-size: 0.9rem;
+            background-color: #828282;
+            border: ridge 1px #7b7b7c;
+            border-radius: 0.25rem;
+            text-shadow: #c4c4c4 0 0 2px;
+            color: #F8F8F2; /* Set text color for better contrast */
+            cursor: pointer;
+        }
 
-  padding-inline: 0.5rem;
-  padding-block-end: 0.5rem;
-  margin: 0.5rem 0;
+        /* Optional hover style for the copy button */
+        pre:has(code) button:hover {
+            background-color: #bcbabb;
+        }
+        
+        /* The copy button for the IP address */
+        #ip-copy-button {
+            padding: 2px 6px; /* Ukuran padding disesuaikan agar lebih kecil */
+            font-size: 0.9rem;
+            background-color: transparent; /* Latar belakang transparan */
+            border: none; /* Menghilangkan border */
+            text-shadow: none; /* Menghilangkan text shadow */
+            color: #F8F8F2; /* Mengubah warna ikon agar terlihat di latar belakang gelap */
+            cursor: pointer;
+            margin-left: 10px; /* Add some space between IP and button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-  border-radius: 0.25rem;
-}
+        #ip-copy-button svg {
+            width: 18px; /* Mengurangi ukuran ikon SVG */
+            height: 18px;
+        }
 
-/* The copy button */
-pre:has(code) button {
-  /* occupy full line */
-  display: block;
+        /* Optional hover style for the IP copy button */
+        #ip-copy-button:hover {
+            color: #ffffff; /* Mengubah warna ikon saat hover */
+        }
 
-  position: sticky;
-  top: 0;
-  left: 0;
+        /* general styles */
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
 
-  margin-block: 0.5rem;
+        body {
+            min-height: 100dvh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
 
-  font-size: 0.9rem;
-  background-color: #828282;
+        code {
+            font-size: 1rem;
+            font-family: "Fira Code", monospace;
+            color: #F8F8F2;
+        }
 
-  border: ridge 1px #7b7b7c;
-  border-radius: 0.25rem;
-  text-shadow: #c4c4c4 0 0 2px;
-}
+        article {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-/* Optional hover style for the copy button */
-pre:has(code) button:hover {
-  background-color: #bcbabb;
-}
+        h1 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Minimalist container for IP and button */
+        .ip-minimal-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #333; /* Warna latar belakang kotak IP dibuat gelap */
+            color: #F8F8F2; /* Warna teks diubah agar kontras */
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+        }
+        
+        /* Style for the IP label */
+        #ip-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
 
-/* general styles */
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100dvh;
-  margin: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-code {
-  font-size: 1rem;
-  font-family: "Fira Code", monospace;
-  font-color: #F8F8F2;
-}
-
-article {
-  width: 100%;
-  max-width: 500px;
-
-  padding-inline: 0.25rem;
-}
-
-h1 {
-  font-size: 1.3rem;
-}
-</style>
+        /* Style for the IP display section */
+        #ip-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00BFFF; /* Warna teks IP diubah agar terlihat lebih terang */
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
-  <body>
-<article>
-  <h2>RDP</h2>
-  
-  <h1>Shell</h1>
-   
-<pre tabindex="0" class="shiki" style="background-color: #272822"><code><span class="line"><span style="color: #F8F8F2">
-  docker run --privileged --shm-size 1g -d -p 8080:10000 -e VNC_PASSWD=password -e PORT=10000 -e AUDIO_PORT=1699 -e WEBSOCKIFY_PORT=6900 -e VNC_PORT=5900 -e SCREEN_WIDTH=1024 -e SCREEN_HEIGHT=768 -e SCREEN_DEPTH=24 thuonghai2711/ubuntu-novnc-pulseaudio:22.04
-</span></span></code></pre>
-  
-  <h1>NoVNC</h1>
+<body>
+    <article>
+        <!-- The IP address section has been moved to the top -->
+        <div class="ip-minimal-container">
+            <span id="ip-label">IP:</span>
+            <p id="ip-display">Memuat...</p>
+            <!-- Hidden input field to hold the IP address for copying -->
+            <input type="text" id="ip-input" style="position: absolute; left: -9999px;">
+            <!-- Button with a new SVG icon for copying -->
+            <button id="ip-copy-button" title="Salin IP">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
 
-<pre tabindex="0" class="shiki" style="background-color: #272822"><code><span class="line" style="color: #F8F8F2">
-  sudo apt update
+        <hr style="margin: 2rem 0;">
 
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        <h1>RDP Shell & NoVNC</h1>
+        
+        <h2>Shell</h2>
+        <pre tabindex="0"><code>
+docker run --privileged --shm-size 1g -d -p 8080:10000 -e VNC_PASSWD=password -e PORT=10000 -e AUDIO_PORT=1699 -e WEBSOCKIFY_PORT=6900 -e VNC_PORT=5900 -e SCREEN_WIDTH=1024 -e SCREEN_HEIGHT=768 -e SCREEN_DEPTH=24 thuonghai2711/ubuntu-novnc-pulseaudio:22.04
+</code></pre>
 
-  sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
-</span></code></pre>
+        <h2>NoVNC</h2>
+        <pre tabindex="0"><code>
+sudo apt update
 
-</article>
-<script>
-  let blocks = document.querySelectorAll("pre:has(code)");
-let copyButtonLabel = "Copy Code";
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-blocks.forEach((block) => {
-  // Add a copy button to all blocks.
-  let button = document.createElement("button");
-  button.innerText = copyButtonLabel;
-  block.prepend(button);
+sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
+</code></pre>
 
-  // handle click event
-  button.addEventListener("click", async () => {
-    await copyCode(block, button);
-  });
-});
+    </article>
 
-async function copyCode(block, button) {
-  let code = block.querySelector("code");
-  let text = code.innerText;
+    <script>
+        // --- SCRIPT UNTUK FUNGSI COPY (DARI FILE PERTAMA) ---
+        let blocks = document.querySelectorAll("pre:has(code)");
+        let copyButtonLabel = "Salin Kode";
 
-  await navigator.clipboard.writeText(text);
+        blocks.forEach((block) => {
+            // Add a copy button to all blocks.
+            let button = document.createElement("button");
+            button.innerText = copyButtonLabel;
+            block.prepend(button);
 
-  // visual feedback that task is completed
-  button.innerText = "Code Copied";
+            // handle click event
+            button.addEventListener("click", () => {
+                copyCode(block, button);
+            });
+        });
 
-  setTimeout(() => {
-    button.innerText = copyButtonLabel;
-  }, 700);
-}
-</script>  
+        // Function to copy code using document.execCommand
+        function copyCode(block, button) {
+            let code = block.querySelector("code");
+            let text = code.innerText;
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // visual feedback that task is completed
+            button.innerText = "Kode Disalin!";
+
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 700);
+        }
+        
+        // --- SCRIPT UNTUK MENAMPILKAN IP DAN MENYALINNYA ---
+
+        const ipDisplayElement = document.getElementById("ip-display");
+        const ipInput = document.getElementById("ip-input");
+        const ipCopyButton = document.getElementById("ip-copy-button");
+        const originalIpButtonContent = ipCopyButton.innerHTML;
+        
+        // This function is called by the external ipify.org script
+        function getIP(json) {
+            ipDisplayElement.innerText = json.ip;
+            ipInput.value = json.ip; // Set the value of the hidden input
+        }
+
+        ipCopyButton.addEventListener("click", () => {
+            ipInput.select();
+            document.execCommand('copy');
+            
+            // visual feedback that task is completed
+            ipCopyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F8F8F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-8.56"></path>
+                <path d="M9 11l3 3l5-5"></path>
+            </svg>`;
+
+            setTimeout(() => {
+                // Restore the original icon after 700ms
+                ipCopyButton.innerHTML = originalIpButtonContent;
+            }, 700);
+        });
+    </script>
+    
+    <!-- External script that fetches the IP address and calls the getIP function -->
+    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
 </html>
