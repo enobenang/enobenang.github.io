@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lokasi Berdasarkan IP</title>
+</head>
+<body>
+    <h1>Informasi Lokasi Anda</h1>
+    <div id="location-info">Memuat informasi lokasi...</div>
+
+    <script>
+        fetch('https://ipinfo.io/json') // Panggil API ipinfo.io
+            .then(response => response.json())
+            .then(data => {
+                const locationDiv = document.getElementById('location-info');
+                locationDiv.innerHTML = `
+                    <p><strong>Kota:</strong> ${data.city}</p>
+                    <p><strong>Wilayah/Negara Bagian:</strong> ${data.region}</p>
+                    <p><strong>Negara:</strong> ${data.country}</p>
+                    <p><strong>Koordinat:</strong> ${data.loc}</p>
+                    <p><strong>ISP:</strong> ${data.org}</p>
+                `;
+            })
+            .catch(error => {
+                const locationDiv = document.getElementById('location-info');
+                locationDiv.innerHTML = `<p>Gagal memuat informasi lokasi: ${error}</p>`;
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
