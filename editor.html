@@ -205,7 +205,7 @@
         #editor-container {
             position: relative;
             width: 100%;
-            min-height: 400px;
+            min-height: 200px; /* Diperbarui: Ukuran lebih pendek */
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 1rem;
@@ -214,6 +214,7 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             font-family: monospace;
+            resize: vertical; /* Diperbarui: Dapat diubah ukurannya secara manual */
         }
         #editor-container:focus {
             outline: none;
