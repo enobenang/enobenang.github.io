@@ -1,0 +1,150 @@
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZ4Short</title>
+    <!-- CSS untuk menata tampilan halaman -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50; /* Warna hijau */
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            position: relative; /* Menambahkan posisi relatif untuk dropdown */
+        }
+        nav li {
+            margin: 0 15px;
+            position: relative; /* Menambahkan posisi relatif untuk item menu */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ddd;
+        }
+        /* Style untuk dropdown menu */
+        nav ul ul {
+            display: none; /* Sembunyikan dropdown secara default */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #555;
+            flex-direction: column;
+            width: 150px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav ul ul li {
+            margin: 0;
+        }
+        nav ul ul a {
+            padding: 10px 15px;
+            display: block;
+        }
+        /* Tampilkan dropdown saat item menu di-hover */
+        nav li:hover > ul {
+            display: flex;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .link-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .link-list a {
+            text-decoration: none;
+            color: #007bff; /* Warna biru */
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bagian Header: Nama Blog dan Menu Navigasi -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Beranda</a></li>
+                <li><a href="/rdp">RDP</a></li>
+                <li><a href="/editor">Editor</a></li>
+                <!-- Menu utama dengan submenu (dropdown) -->
+                <li>
+                    <a href="#">ShortLink</a>
+                    <ul>
+                        <li><a href="/cuty">Cuty.io</a></li>
+                        <li><a href="/safelinku">Safelinku</a></li>
+                        <li><a href="/adtival">Adtival</a></li>
+                        <li><a href="/ez4short">Ez4Short</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Bagian Konten Utama: Judul dan Daftar Link -->
+    <div class="container">
+        <h1>EZ4Short</h1>
+        <ul class="link-list">
+            <li><a href="#">Eno: Link 1</a></li>
+            <li><a href="#">Eno: Link 2</a></li>
+            <li><a href="#">Eno: Link 3</a></li>
+            <li><a href="#">Eno: Link </a></li>
+            <li><a href="#">Eno: Link </a></li>
+        </ul>
+    </div>
+
+    <!-- Bagian Footer: Nama Blog dan Tahun -->
+    <footer>
+        <p>Blog Saya &copy; 2025</p>
+    </footer>
+
+</body>
+</html>
