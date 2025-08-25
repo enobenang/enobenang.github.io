@@ -6,6 +6,7 @@
     <!-- Add viewport for mobile responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* CSS yang sudah ada */
         /* Code blocks */
         pre:has(code) {
             position: relative;
@@ -39,7 +40,7 @@
         pre:has(code) button:hover {
             background-color: #bcbabb;
         }
-        
+
         /* The copy button for the IP address */
         #ip-copy-button {
             padding: 2px 6px; /* Ukuran padding disesuaikan agar lebih kecil */
@@ -76,7 +77,8 @@
             min-height: 100dvh;
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Mengubah arah flex menjadi kolom */
+            justify-content: flex-start; /* Konten dimulai dari atas */
             align-items: center;
             font-family: sans-serif;
             background-color: #f0f0f0;
@@ -96,6 +98,7 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Menambahkan margin atas agar tidak menempel pada navigasi */
         }
 
         h1 {
@@ -105,12 +108,12 @@
             margin-top: 0;
             margin-bottom: 1rem;
         }
-        
+
         h2 {
             font-size: 1.25rem;
             margin-bottom: 0.5rem;
         }
-        
+
         /* Minimalist container for IP and button */
         .ip-minimal-container {
             display: flex;
@@ -122,7 +125,7 @@
             border: none; /* Menghapus garis putus-putus */
             border-radius: 4px;
         }
-        
+
         /* Style for the IP label */
         #ip-label {
             font-weight: bold;
@@ -138,17 +141,97 @@
             padding: 0;
             margin: 0;
         }
+
+        /* --- CSS TAMBAHAN UNTUK NAVIGASI DARI FILE BLOG --- */
+        header {
+            width: 100%;
+            background-color: #4CAF50; /* Warna hijau */
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            position: relative; /* Menambahkan posisi relatif untuk dropdown */
+        }
+        nav li {
+            margin: 0 15px;
+            position: relative; /* Menambahkan posisi relatif untuk item menu */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ddd;
+        }
+        /* Style untuk dropdown menu */
+        nav ul ul {
+            display: none; /* Sembunyikan dropdown secara default */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #555;
+            flex-direction: column;
+            width: 150px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav ul ul li {
+            margin: 0;
+        }
+        nav ul ul a {
+            padding: 10px 15px;
+            display: block;
+        }
+        /* Tampilkan dropdown saat item menu di-hover */
+        nav li:hover > ul {
+            display: flex;
+        }
+        /* --- CSS TAMBAHAN UNTUK FOOTER --- */
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            margin-top: 20px; /* Menambahkan ruang di atas footer */
+        }
     </style>
 </head>
 <body>
+
+    <!-- NAVIGASI TAMBAHAN DARI HALAMAN BLOG (SUDAH DIUPDATE) -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Beranda</a></li>
+                <li><a href="/rdp">RDP</a></li>
+                <li><a href="/editor">Editor</a></li>
+                <li>
+                    <a href="#">ShortLink</a>
+                    <ul>
+                        <li><a href="/cuty">Cuty.io</a></li>
+                        <li><a href="/safelinku">Safelinku</a></li>
+                        <li><a href="/adtival">Adtival</a></li>
+                        <li><a href="/ez4short">Ez4Short</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
     <article>
-        <!-- The IP address section has been moved to the top -->
         <div class="ip-minimal-container">
             <span id="ip-label">IP:</span>
             <p id="ip-display">Memuat...</p>
-            <!-- Hidden input field to hold the IP address for copying -->
             <input type="text" id="ip-input" style="position: absolute; left: -9999px;">
-            <!-- Button with a new SVG icon for copying -->
             <button id="ip-copy-button" title="Salin IP">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
@@ -160,10 +243,10 @@
         <hr style="margin: 2rem 0;">
 
         <h1>RDP Shell & NoVNC</h1>
-        
+
         <h2>Shell</h2>
         <pre tabindex="0"><code>
-docker run --privileged --shm-size 1g -d -p 8080:10000 -e VNC_PASSWD=password -e PORT=10000 -e AUDIO_PORT=1699 -e WEBSOCKIFY_PORT=6900 -e VNC_PORT=5900 -e SCREEN_WIDTH=1024 -e SCREEN_HEIGHT=768 -e SCREEN_DEPTH=24 thuonghai2711/ubuntu-novnc-pulseaudio:22.04
+docker run --privileged --shm-size 1g -d-p 8080:10000 -e VNC_PASSWD=password -e PORT=10000 -e AUDIO_PORT=1699 -e WEBSOCKIFY_PORT=6900 -e VNC_PORT=5900 -e SCREEN_WIDTH=1024 -e SCREEN_HEIGHT=768 -e SCREEN_DEPTH=24 thuonghai2711/ubuntu-novnc-pulseaudio:22.04
 </code></pre>
 
         <h2>NoVNC</h2>
@@ -176,6 +259,11 @@ sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
 </code></pre>
 
     </article>
+
+    <!-- FOOTER TAMBAHAN DARI HALAMAN BLOG -->
+    <footer>
+        <p>Blog Saya &copy; 2025</p>
+    </footer>
 
     <script>
         // --- SCRIPT UNTUK FUNGSI COPY (DARI FILE PERTAMA) ---
@@ -213,14 +301,14 @@ sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
                 button.innerText = copyButtonLabel;
             }, 700);
         }
-        
+
         // --- SCRIPT UNTUK MENAMPILKAN IP DAN MENYALINNYA ---
 
         const ipDisplayElement = document.getElementById("ip-display");
         const ipInput = document.getElementById("ip-input");
         const ipCopyButton = document.getElementById("ip-copy-button");
         const originalIpButtonContent = ipCopyButton.innerHTML;
-        
+
         // This function is called by the external ipify.org script
         function getIP(json) {
             ipDisplayElement.innerText = json.ip;
@@ -230,7 +318,7 @@ sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
         ipCopyButton.addEventListener("click", () => {
             ipInput.select();
             document.execCommand('copy');
-            
+
             // visual feedback that task is completed
             ipCopyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F8F8F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-8.56"></path>
@@ -243,7 +331,7 @@ sudo apt install --assume-yes ./google-chrome-stable_current_amd64.deb
             }, 700);
         });
     </script>
-    
+
     <!-- External script that fetches the IP address and calls the getIP function -->
     <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
