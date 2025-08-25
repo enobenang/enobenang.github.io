@@ -115,6 +115,13 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Container untuk lokasi */
+        .location-container {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
         /* Minimalist container for IP and button */
         .ip-minimal-container {
             display: flex;
@@ -123,7 +130,7 @@
             padding: 1rem;
             background-color: #333; /* Warna latar belakang kotak IP dibuat gelap */
             color: #F8F8F2; /* Warna teks diubah agar kontras */
-            border: none; /* Menghapus garis putus-putus */
+            border: none; /* Menghilangkan border */
             border-radius: 4px;
         }
 
@@ -262,6 +269,11 @@
             </button>
         </div>
 
+        <!-- Bagian baru untuk menampilkan lokasi -->
+        <div class="location-container">
+            <p id="location-display">Mencari lokasi...</p>
+        </div>
+
         <hr style="margin: 2rem 0;">
 
         <!-- Tambahan konten blog untuk memperpanjang halaman -->
@@ -328,11 +340,33 @@
         const ipInput = document.getElementById("ip-input");
         const ipCopyButton = document.getElementById("ip-copy-button");
         const originalIpButtonContent = ipCopyButton.innerHTML;
+        const locationDisplayElement = document.getElementById("location-display");
+        
+        // This is a global callback function for the IP location API.
+        window.getLocation = function(data) {
+            if (data.status === 'success') {
+                locationDisplayElement.innerText = `${data.city}, ${data.country}`;
+            } else {
+                locationDisplayElement.innerText = 'Lokasi tidak ditemukan.';
+            }
+            // Remove the script tag to clean up after it has executed.
+            const script = document.getElementById('location-script');
+            if (script) {
+                document.body.removeChild(script);
+            }
+        };
 
         // This function is called by the external ipify.org script
         function getIP(json) {
             ipDisplayElement.innerText = json.ip;
             ipInput.value = json.ip; // Set the value of the hidden input
+            
+            // Menggunakan metode JSONP untuk mengambil data lokasi, yang akan menghindari masalah CORS
+            const locationApiUrl = `https://ip-api.com/json/?callback=getLocation`;
+            const script = document.createElement('script');
+            script.src = locationApiUrl;
+            script.id = 'location-script'; // Add an ID to the script so we can remove it later
+            document.body.appendChild(script);
         }
 
         ipCopyButton.addEventListener("click", () => {
