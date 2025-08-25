@@ -1,70 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Easy Copy To Clipboard</title>
- 
+<html>
+<head>
+    <!-- Combined title for the page -->
+    <title>Beranda</title>
+    <!-- Add viewport for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-body {
-  background-color: #1d85dd;
-  display: flex;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.copy-box {
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 400px;
-}
-.copy-text {
-  background-color: #e5e5e5;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-button {
-  background-color: #1d85dd;
-  color: #ffffff;
-  padding: 10px 15px;
-  border: none;
-}
-.copied-msg {
-  color: green;
-  margin-top: 10px;
-  display: none;
-}
-</style>
-    
-  </head>
-  <body>
-    <div class="copy-box">
-      <p class="copy-text" id="text">
-        Ini hanyalah percobaan semata. Jadi gimana gaes apakah teks ini bisa di copy?
-      </p>
-      <button onclick="copyText()">Copy Text</button>
-      <div class="copied-msg" id="copiedMsg">Copied!</div>
-    </div>
+        /* CSS yang sudah ada */
+        /* Code blocks */
+        pre:has(code) {
+            position: relative;
+            /* add scrollbar if there is horizontal overflow */
+            overflow-y: auto;
+            padding-inline: 0.5rem;
+            padding-block-end: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 0.25rem;
+            background-color: #272822; /* Set background color for the code block */
+        }
+
+        /* The copy button */
+        pre:has(code) button {
+            /* occupy full line */
+            display: block;
+            position: sticky;
+            top: 0;
+            left: 0;
+            margin-block: 0.5rem;
+            font-size: 0.9rem;
+            background-color: #828282;
+            border: ridge 1px #7b7b7c;
+            border-radius: 0.25rem;
+            text-shadow: #c4c4c4 0 0 2px;
+            color: #F8F8F2; /* Set text color for better contrast */
+            cursor: pointer;
+        }
+
+        /* Optional hover style for the copy button */
+        pre:has(code) button:hover {
+            background-color: #bcbabb;
+        }
+
+        /* The copy button for the IP address */
+        #ip-copy-button {
+            padding: 2px 6px; /* Ukuran padding disesuaikan agar lebih kecil */
+            font-size: 0.9rem;
+            background-color: transparent; /* Latar belakang transparan */
+            border: none; /* Menghilangkan border */
+            text-shadow: none; /* Menghilangkan text shadow */
+            color: #F8F8F2; /* Mengubah warna ikon agar terlihat di latar belakang gelap */
+            cursor: pointer;
+            margin-left: 10px; /* Add some space between IP and button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #ip-copy-button svg {
+            width: 18px; /* Mengurangi ukuran ikon SVG */
+            height: 18px;
+        }
+
+        /* Optional hover style for the IP copy button */
+        #ip-copy-button:hover {
+            color: #ffffff; /* Mengubah warna ikon saat hover */
+        }
+
+        /* general styles */
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100dvh;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Mengubah arah flex menjadi kolom */
+            justify-content: flex-start; /* Konten dimulai dari atas */
+            align-items: center;
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        code {
+            font-size: 1rem;
+            font-family: "Fira Code", monospace;
+            color: #F8F8F2;
+        }
+
+        article {
+            width: 100%;
+            max-width: 800px; /* Lebar sudah diubah menjadi 800px */
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* Menambahkan margin atas agar tidak menempel pada navigasi */
+            margin-bottom: 20px; /* Menambahkan margin bawah agar tidak menempel pada footer */
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Minimalist container for IP and button */
+        .ip-minimal-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #333; /* Warna latar belakang kotak IP dibuat gelap */
+            color: #F8F8F2; /* Warna teks diubah agar kontras */
+            border: none; /* Menghapus garis putus-putus */
+            border-radius: 4px;
+        }
+
+        /* Style for the IP label */
+        #ip-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Style for the IP display section */
+        #ip-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00BFFF; /* Warna teks IP diubah agar terlihat lebih terang */
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* --- CSS TAMBAHAN UNTUK NAVIGASI DARI FILE BLOG --- */
+        header {
+            width: 100%;
+            background-color: #4CAF50; /* Warna hijau */
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            position: relative; /* Menambahkan posisi relatif untuk dropdown */
+        }
+        nav li {
+            margin: 0 15px;
+            position: relative; /* Menambahkan posisi relatif untuk item menu */
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ddd;
+        }
+        /* Style untuk dropdown menu */
+        nav ul ul {
+            display: none; /* Sembunyikan dropdown secara default */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #555;
+            flex-direction: column;
+            width: 150px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav ul ul li {
+            margin: 0;
+        }
+        nav ul ul a {
+            padding: 10px 15px;
+            display: block;
+        }
+        /* Tampilkan dropdown saat item menu di-hover */
+        nav li:hover > ul {
+            display: flex;
+        }
+        /* --- CSS TAMBAHAN UNTUK FOOTER --- */
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            margin-top: 20px; /* Menambahkan ruang di atas footer */
+        }
+        .link-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .link-list a {
+            text-decoration: none;
+            color: #007bff; /* Warna biru */
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGASI DARI HALAMAN BLOG -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Beranda</a></li>
+                <li><a href="/rdp">RDP</a></li>
+                <li><a href="/editor">Editor</a></li>
+                <li>
+                    <a href="#">ShortLink</a>
+                    <ul>
+                        <li><a href="/cuty">Cuty.io</a></li>
+                        <li><a href="/safelinku">Safelinku</a></li>
+                        <li><a href="/adtival">Adtival</a></li>
+                        <li><a href="/ez4short">Ez4Short</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <!-- Konten Utama: Hanya Kotak IP -->
+        <div class="ip-minimal-container">
+            <span id="ip-label">IP:</span>
+            <p id="ip-display">Memuat...</p>
+            <input type="text" id="ip-input" style="position: absolute; left: -9999px;">
+            <button id="ip-copy-button" title="Salin IP">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <hr style="margin: 2rem 0;">
+
+        <!-- Tambahan konten blog untuk memperpanjang halaman -->
+        <h1>Daftar Isi Blog</h1>
+        <ul class="link-list">
+            <li><a href="#">Mengenal Dasar-Dasar HTML untuk Pemula</a></li>
+            <li><a href="#">5 Tips Menulis Konten yang Menarik</a></li>
+            <li><a href="#">Cara Membangun Portofolio Online Anda</a></li>
+            <li><a href="#">Masa Depan Teknologi Web: Tren Terbaru</a></li>
+            <li><a href="#">Mengapa SEO Penting untuk Blog Anda?</a></li>
+            <li><a href="#">Panduan Lengkap Memulai Bisnis Online</a></li>
+            <li><a href="#">Tips Menghemat Baterai Laptop</a></li>
+            <li><a href="#">Cara Membuat Desain Web Responsif</a></li>
+            <li><a href="#">Membangun Personal Branding di Media Sosial</a></li>
+            <li><a href="#">Koleksi Plugin WordPress Terbaik</a></li>
+        </ul>
+    </article>
+
+    <!-- FOOTER DARI HALAMAN BLOG -->
+    <footer>
+        <p>Blog Saya &copy; 2025</p>
+    </footer>
 
     <script>
-async function copyText() {
-  const p = document.getElementById("text");
-  try {
-    await navigator.clipboard.writeText(p.textContent);
-    const msg = document.getElementById("copiedMsg");
-    msg.style.display = "block";
-    setTimeout(() => {
-      msg.style.display = "none";
-    }, 1500);
-  } catch (err) {
-    alert("failed to copy" + err);
-  }
-}
-</script>
-  </body>
+        // --- SCRIPT UNTUK FUNGSI COPY (DARI FILE PERTAMA) ---
+        let blocks = document.querySelectorAll("pre:has(code)");
+        let copyButtonLabel = "Salin Kode";
+
+        blocks.forEach((block) => {
+            // Add a copy button to all blocks.
+            let button = document.createElement("button");
+            button.innerText = copyButtonLabel;
+            block.prepend(button);
+
+            // handle click event
+            button.addEventListener("click", () => {
+                copyCode(block, button);
+            });
+        });
+
+        // Function to copy code using document.execCommand
+        function copyCode(block, button) {
+            let code = block.querySelector("code");
+            let text = code.innerText;
+
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // visual feedback that task is completed
+            button.innerText = "Kode Disalin!";
+
+            setTimeout(() => {
+                button.innerText = copyButtonLabel;
+            }, 700);
+        }
+
+        // --- SCRIPT UNTUK MENAMPILKAN IP DAN MENYALINNYA ---
+
+        const ipDisplayElement = document.getElementById("ip-display");
+        const ipInput = document.getElementById("ip-input");
+        const ipCopyButton = document.getElementById("ip-copy-button");
+        const originalIpButtonContent = ipCopyButton.innerHTML;
+
+        // This function is called by the external ipify.org script
+        function getIP(json) {
+            ipDisplayElement.innerText = json.ip;
+            ipInput.value = json.ip; // Set the value of the hidden input
+        }
+
+        ipCopyButton.addEventListener("click", () => {
+            ipInput.select();
+            document.execCommand('copy');
+
+            // visual feedback that task is completed
+            ipCopyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F8F8F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-8.56"></path>
+                <path d="M9 11l3 3l5-5"></path>
+            </svg>`;
+
+            setTimeout(() => {
+                // Restore the original icon after 700ms
+                ipCopyButton.innerHTML = originalIpButtonContent;
+            }, 700);
+        });
+    </script>
+
+    <!-- External script that fetches the IP address and calls the getIP function -->
+    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+</body>
 </html>
