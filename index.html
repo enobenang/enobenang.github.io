@@ -121,6 +121,10 @@
             margin-top: 10px;
             font-style: italic;
         }
+        .location-container p {
+            font-style: normal;
+            text-align: left;
+        }
 
         /* Minimalist container for IP and button */
         .ip-minimal-container {
@@ -256,7 +260,7 @@
     </header>
 
     <article>
-        <!-- Konten Utama: Hanya Kotak IP -->
+        <!-- Konten Utama: Kotak IP dan Lokasi -->
         <div class="ip-minimal-container">
             <span id="ip-label">IP:</span>
             <p id="ip-display">Memuat...</p>
@@ -271,7 +275,8 @@
 
         <!-- Bagian baru untuk menampilkan lokasi -->
         <div class="location-container">
-            <p id="location-display">Mencari lokasi...</p>
+            <h3>Informasi Lokasi Anda</h3>
+            <div id="location-info">Memuat informasi lokasi...</div>
         </div>
 
         <hr style="margin: 2rem 0;">
@@ -334,40 +339,37 @@
             }, 700);
         }
 
-        // --- SCRIPT UNTUK MENAMPILKAN IP DAN MENYALINNYA ---
+        // --- SCRIPT UNTUK MENAMPILKAN IP DAN LOKASI DENGAN ipinfo.io ---
 
         const ipDisplayElement = document.getElementById("ip-display");
         const ipInput = document.getElementById("ip-input");
         const ipCopyButton = document.getElementById("ip-copy-button");
         const originalIpButtonContent = ipCopyButton.innerHTML;
         const locationDisplayElement = document.getElementById("location-display");
+        const locationInfoDiv = document.getElementById('location-info');
         
-        // This is a global callback function for the IP location API.
-        window.getLocation = function(data) {
-            if (data.status === 'success') {
-                locationDisplayElement.innerText = `${data.city}, ${data.country}`;
-            } else {
-                locationDisplayElement.innerText = 'Lokasi tidak ditemukan.';
-            }
-            // Remove the script tag to clean up after it has executed.
-            const script = document.getElementById('location-script');
-            if (script) {
-                document.body.removeChild(script);
-            }
-        };
+        // Panggil API ipinfo.io untuk mendapatkan IP dan lokasi
+        fetch('https://ipinfo.io/json')
+            .then(response => response.json())
+            .then(data => {
+                // Tampilkan IP di elemen yang sesuai
+                ipDisplayElement.innerText = data.ip;
+                ipInput.value = data.ip;
 
-        // This function is called by the external ipify.org script
-        function getIP(json) {
-            ipDisplayElement.innerText = json.ip;
-            ipInput.value = json.ip; // Set the value of the hidden input
-            
-            // Menggunakan metode JSONP untuk mengambil data lokasi, yang akan menghindari masalah CORS
-            const locationApiUrl = `https://ip-api.com/json/?callback=getLocation`;
-            const script = document.createElement('script');
-            script.src = locationApiUrl;
-            script.id = 'location-script'; // Add an ID to the script so we can remove it later
-            document.body.appendChild(script);
-        }
+                // Tampilkan informasi lokasi secara lengkap
+                locationInfoDiv.innerHTML = `
+                    <p><strong>Kota:</strong> ${data.city}</p>
+                    <p><strong>Wilayah/Negara Bagian:</strong> ${data.region}</p>
+                    <p><strong>Negara:</strong> ${data.country}</p>
+                    <p><strong>Koordinat:</strong> ${data.loc}</p>
+                    <p><strong>ISP:</strong> ${data.org}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                ipDisplayElement.innerText = 'Gagal memuat IP';
+                locationInfoDiv.innerHTML = 'Gagal memuat informasi lokasi.';
+            });
 
         ipCopyButton.addEventListener("click", () => {
             ipInput.select();
@@ -385,8 +387,5 @@
             }, 700);
         });
     </script>
-
-    <!-- External script that fetches the IP address and calls the getIP function -->
-    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 </body>
 </html>
