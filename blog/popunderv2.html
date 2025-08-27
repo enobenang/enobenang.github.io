@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Popunder URL Sekali Pakai</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      min-height: 100vh;
+      margin: 0;
+    }
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0);
+      cursor: pointer;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 
+    data-url      = daftar halaman utama redirect (pisah koma)
+    data-popunder = 1 halaman popunder saja
+    data-hide     = "true" => overlay hilang setelah daftar habis
+  -->
+  <div id="overlay"
+       data-url="https://google.com,https://bing.com,https://duckduckgo.com"
+       data-popunder=""
+       data-hide="true"></div>
+
+  <h1>Redirect Sekali Pakai</h1>
+  <p>Klik halaman ini, tiap klik pakai URL berbeda, tidak diulang lagi.</p>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    let klikCounter = parseInt(sessionStorage.getItem("overlayClicks") || "0");
+
+    // daftar redirect utama
+    const urls = overlay.dataset.url
+                    ? overlay.dataset.url.split(",").map(l => l.trim()).filter(l => l !== "")
+                    : [];
+
+    overlay.addEventListener('click', function() {
+      // stop kalau semua URL sudah dipakai
+      if (klikCounter >= urls.length) {
+        if (this.dataset.hide === "true") {
+          this.style.display = "none";
+        } else {
+          this.style.pointerEvents = "none";
+        }
+        return;
+      }
+
+      const popUnderUrl = this.dataset.popunder && this.dataset.popunder.trim() !== ""
+                          ? this.dataset.popunder 
+                          : window.location.href;
+
+      klikCounter++;
+      sessionStorage.setItem("overlayClicks", klikCounter);
+
+      // window unik
+      const windowName = "PopUnderWindow" + klikCounter;
+      const popUnderWindow = window.open(popUnderUrl, windowName);
+      if (popUnderWindow) {
+        popUnderWindow.blur();
+        window.focus();
+      }
+
+      // ambil redirect sesuai urutan (sekali pakai)
+      const tujuan = urls[klikCounter - 1]; 
+      if (tujuan && tujuan.trim() !== "") {
+        window.location.href = tujuan;
+      }
+    });
+  </script>
+
+</body>
+</html>
