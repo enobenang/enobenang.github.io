@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Halaman Awal</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Overlay transparan */
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0); /* transparan penuh */
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    /* Debug counter (opsional, bisa dihapus) */
+    #debug-counter {
+      position: fixed;
+      bottom: 10px; right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 
+    data-url     = halaman utama redirect 
+    data-popunder= halaman popunder
+    data-limit   = 0 (unlimited) atau angka (jumlah klik)
+    data-hide    = "true" => overlay hilang setelah habis limit
+  -->
+  <div id="overlay" 
+       data-url="https://google.com" 
+       data-popunder="" 
+       data-hide="true"
+       data-limit="3"></div>
+
+  <h1>Selamat Datang di Halaman Awal</h1>
+  <p>Klik di mana saja pada halaman ini.</p>
+  <hr>
+  <p>Link ini akan <a href="https://wikipedia.org">berfungsi normal</a> setelah limit pemicu pop-under habis. Kalo di set0 yang kagak bisa di klik-klik. wkwkwkwk </p>
+  <br>
+  <p>BTW ini halaman ini awalnya dibikin di gemini tapi setelah saya minta untuk dibuat versi overlay transparan gemini menolak. katanya tidak etis, tapi untungnya chatgpt mau.</p>
+
+  <div id="debug-counter">Clicks: 0</div>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const debugCounter = document.getElementById('debug-counter');
+
+    let klikCounter = parseInt(sessionStorage.getItem("overlayClicks") || "0");
+
+    overlay.addEventListener('click', function() {
+      const limit = this.dataset.limit ? parseInt(this.dataset.limit) : 1;
+      const unlimited = limit === 0; // kalau 0 → unlimited
+
+      // stop kalau limit habis (kecuali unlimited)
+      if (!unlimited && klikCounter >= limit) {
+        if (this.dataset.hide === "true") {
+          this.style.display = "none";
+        } else {
+          this.style.pointerEvents = "none";
+        }
+        return;
+      }
+
+      klikCounter++;
+      sessionStorage.setItem("overlayClicks", klikCounter);
+
+      const tujuan = this.dataset.url;
+      const popUnderUrl = this.dataset.popunder && this.dataset.popunder.trim() !== "" 
+                          ? this.dataset.popunder 
+                          : window.location.href;
+
+      // nama window unik
+      const windowName = "PopUnderWindow" + klikCounter;
+
+      const popUnderWindow = window.open(popUnderUrl, windowName);
+      if (popUnderWindow) {
+        popUnderWindow.blur();
+        window.focus();
+      }
+
+      if (tujuan && tujuan.trim() !== "") {
+        window.location.href = tujuan;
+      }
+
+      // update debug
+      debugCounter.textContent = "Clicks: " + klikCounter;
+    });
+
+    // update counter saat load ulang
+    debugCounter.textContent = "Clicks: " + klikCounter;
+  </script>
+
+</body>
+</html>
