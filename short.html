@@ -13,7 +13,7 @@
             color: #333;
         }
         header {
-            background-color: #4CAF50; /* Warna hijau */
+            background-color: #4CAF50;
             color: white;
             padding: 1rem 0;
             text-align: center;
@@ -24,11 +24,9 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            position: relative;
         }
         nav li {
             margin: 0 15px;
-            position: relative;
         }
         nav a {
             color: white;
@@ -78,13 +76,13 @@
             list-style-type: none;
             padding: 0;
             margin-top: 10px;
-            display: none; /* Sembunyikan secara default */
+            display: none;
             border: 1px solid #ddd;
             border-top: none;
             border-radius: 0 0 8px 8px;
         }
         .link-list.active {
-            display: block; /* Tampilkan saat aktif */
+            display: block;
         }
         .link-list li {
             margin-bottom: 1px;
@@ -97,12 +95,23 @@
         }
         .link-list a {
             text-decoration: none;
-            color: #007bff; /* Warna biru */
+            color: #007bff;
             font-size: 1.1rem;
             font-weight: 500;
         }
         .link-list a:hover {
             text-decoration: underline;
+        }
+        /* Indikasi link kosong */
+        .disabled-link {
+            color: #aaa !important;
+            pointer-events: none;
+            text-decoration: none;
+        }
+        /* Link sudah diklik */
+        .visited-link {
+            color: #555 !important;
+            font-style: italic;
         }
         footer {
             text-align: center;
@@ -129,50 +138,55 @@
     <div class="container">
         <h1>Daftar ShortLink</h1>
 
+        <!-- Cuty.io -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('cuty-links')">Cuty.io</button>
             <ul id="cuty-links" class="link-list">
                 <li><a href="https://t.co/9890ulHTRQ" target="_blank">Eno: Link 1</a></li>
                 <li><a href="https://t.co/oLcAyI0nmP" target="_blank">Eno: Link 2</a></li>
-                <li><a href="#" target="_blank">Eno: Link 3</a></li>
-                <li><a href="#" target="_blank">Eno: Link 4</a></li>
-                <li><a href="#" target="_blank">Eno: Link 5</a></li>
+                <li><a href="#">Eno: Link 3 (kosong)</a></li>
+                <li><a href="#">Eno: Link 4 (kosong)</a></li>
+                <li><a href="#">Eno: Link 5 (kosong)</a></li>
             </ul>
         </div>
 
+        <!-- Safelinku -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('safelinku-links')">Safelinku</button>
             <ul id="safelinku-links" class="link-list">
                 <li><a href="https://t.co/4ttzJzqNIA" target="_blank">Eno: Link 1</a></li>
-                <li><a href="#" target="_blank">Eno: Link 2</a></li>
-                <li><a href="#" target="_blank">Eno: Link 3</a></li>
-                <li><a href="#" target="_blank">Eno: Link 4</a></li>
-                <li><a href="#" target="_blank">Eno: Link 5</a></li>
+                <li><a href="#">Eno: Link 2 (kosong)</a></li>
+                <li><a href="#">Eno: Link 3 (kosong)</a></li>
+                <li><a href="#">Eno: Link 4 (kosong)</a></li>
+                <li><a href="#">Eno: Link 5 (kosong)</a></li>
             </ul>
         </div>
 
+        <!-- Adtival -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('adtival-links')">Adtival</button>
             <ul id="adtival-links" class="link-list">
                 <li><a href="https://t.co/lLgBlnbMMN" target="_blank">Eno: Link 1</a></li>
-                <li><a href="#" target="_blank">Eno: Link 2</a></li>
-                <li><a href="#" target="_blank">Eno: Link 3</a></li>
-                <li><a href="#" target="_blank">Eno: Link 4</a></li>
-                <li><a href="#" target="_blank">Eno: Link 5</a></li>
+                <li><a href="#">Eno: Link 2 (kosong)</a></li>
+                <li><a href="#">Eno: Link 3 (kosong)</a></li>
+                <li><a href="#">Eno: Link 4 (kosong)</a></li>
+                <li><a href="#">Eno: Link 5 (kosong)</a></li>
             </ul>
         </div>
 
+        <!-- Ez4Short -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('ez4short-links')">Ez4Short</button>
             <ul id="ez4short-links" class="link-list">
                 <li><a href="https://t.co/TXl5QyIgS4" target="_blank">Eno: Link 1</a></li>
                 <li><a href="https://t.co/WFJCJx9OPb" target="_blank">Eno: Link 2</a></li>
                 <li><a href="https://t.co/kgCnNgx3eO" target="_blank">Eno: Link 3</a></li>
-                <li><a href="#" target="_blank">Eno: Link 4</a></li>
-                <li><a href="#" target="_blank">Eno: Link 5</a></li>
+                <li><a href="#">Eno: Link 4 (kosong)</a></li>
+                <li><a href="#">Eno: Link 5 (kosong)</a></li>
             </ul>
         </div>
 
+        <!-- Ouo.io -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('ouo-links')">Ouo.io</button>
             <ul id="ouo-links" class="link-list">
@@ -184,6 +198,7 @@
             </ul>
         </div>
 
+        <!-- Oii.io -->
         <div class="link-section">
             <button class="link-toggle" onclick="toggleLinks('oii-links')">Oii.io</button>
             <ul id="oii-links" class="link-list">
@@ -205,6 +220,19 @@
             var element = document.getElementById(id);
             element.classList.toggle("active");
         }
+
+        // Atur status link
+        document.querySelectorAll('.link-list a').forEach(link => {
+            if (link.getAttribute('href') === "#") {
+                // Link kosong
+                link.classList.add('disabled-link');
+            } else {
+                // Tandai link sudah diklik
+                link.addEventListener('click', function() {
+                    this.classList.add('visited-link');
+                });
+            }
+        });
     </script>
 
 </body>
