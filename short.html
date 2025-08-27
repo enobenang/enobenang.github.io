@@ -221,15 +221,30 @@
             element.classList.toggle("active");
         }
 
-        // Atur status link
+        // Fungsi simpan link ke localStorage
+        function markLinkVisited(href) {
+            let visited = JSON.parse(localStorage.getItem('visitedLinks') || '[]');
+            if (!visited.includes(href)) {
+                visited.push(href);
+                localStorage.setItem('visitedLinks', JSON.stringify(visited));
+            }
+        }
+
+        // Tandai link kosong & link yang diklik
         document.querySelectorAll('.link-list a').forEach(link => {
             if (link.getAttribute('href') === "#") {
-                // Link kosong
-                link.classList.add('disabled-link');
+                link.classList.add('disabled-link'); // Link kosong
             } else {
-                // Tandai link sudah diklik
+                // Tandai yang sudah diklik sebelumnya
+                let visited = JSON.parse(localStorage.getItem('visitedLinks') || '[]');
+                if (visited.includes(link.href)) {
+                    link.classList.add('visited-link');
+                }
+
+                // Tambahkan event klik
                 link.addEventListener('click', function() {
                     this.classList.add('visited-link');
+                    markLinkVisited(this.href);
                 });
             }
         });
