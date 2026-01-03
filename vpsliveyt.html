@@ -36,6 +36,67 @@ Proyek ini menjelaskan langkah-langkah untuk mengatur server Ubuntu agar dapat d
    ```bash<br>
    sudo apt install python3 python3-pip -y
   <br>
-   
+5. **Install gdown untuk download file dari Google Drive:**
+   ```bash<br>
+   pip install gdown
+   <br>```
+<br>
+---
+<br>
+## Menggunakan gdown untuk Mengunduh Video
+<br>
+Unduh video dari Google Drive dengan perintah berikut:
+```bash<br>
+gdown https://drive.google.com/uc?id=your_file_id
+<br>```
+<br>
+Ganti `your_file_id` dengan **ID file Google Drive** Anda.
+<br>
+---
+<br>
+## Mengelola Sesi tmux
+<br>
+**1. Mulai sesi baru:**
+```bash<br>
+tmux new -s Mainan
+<br>```
+<br>
+**2. Monitoring sesi tmux yang sudah ada:**
+```bash<br>
+tmux attach -t Hujan
+<br>```
+<br>
+**3. Menghentikan sesi tmux:**
+```bash<br>
+tmux kill-session -t Hujan
+<br>```
+
+---
+<br>
+## Live Streaming ke YouTube Menggunakan FFmpeg
+<br>
+Untuk memulai live streaming di YouTube, gunakan perintah berikut:
+```bash<br>
+ffmpeg -stream_loop -1 -re -i /root/live.mp4 -f flv -c:v copy -c:a copy rtmp://a.rtmp.youtube.com/live2/your_StreamKey
+```
+<br>
+Untuk memulai live streaming di YouTube dengan timeout, misalnya ingin live 10 jam saja maka gunakan perintah berikut:
+```bash<br>
+timeout 10h ffmpeg -stream_loop -1 -re -i /root/live.mp4 -f flv -c:v copy -c:a copy rtmp://a.rtmp.youtube.com/live2/your_StreamKey
+```
+
+<br>
+### Penjelasan:
+- **`/root/live.mp4`**: Path file video Anda (pastikan file ini sudah ada di server).
+- **`your_StreamKey`**: Ganti dengan Stream Key dari YouTube Live.
+
+---
+<br>
+## Catatan
+- Gunakan **tmux** untuk menjalankan FFmpeg sehingga live streaming tetap berjalan meskipun Anda keluar dari sesi SSH.
+- Jangan lupa memastikan bahwa video Anda telah diunggah atau tersedia di server.
+
+---
+<br>   
 </body>
 </html>
