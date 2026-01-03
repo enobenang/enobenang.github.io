@@ -74,16 +74,30 @@ tmux kill-session -t Hujan
 ---
 <br>
 ## Live Streaming ke YouTube Menggunakan FFmpeg
-<br>
+<br><br>
 Untuk memulai live streaming di YouTube, gunakan perintah berikut:
 ```bash<br>
-ffmpeg -stream_loop -1 -re -i /root/live.mp4 -f flv -c:v copy -c:a copy rtmp://a.rtmp.youtube.com/live2/your_StreamKey
-```
+ffmpeg -stream_loop -1 -re -i /datasets/_deepnote_work/live.mp4 -f flv -c:v libx264 -preset veryfast -b:v 1000k -maxrate 1000k -bufsize 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k rtmp://a.rtmp.youtube.com/live2/your_StreamKey
+```<br>
+<br>Untuk video 480p:
+```bash<br>
+ffmpeg -stream_loop -1 -re -i /workspaces/TipsUNIXvps/unaa.mp4 -f flv -c:v libx264 -preset veryfast -b:v 1000k -maxrate 1000k -bufsize 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k rtmp://a.rtmp.youtube.com/live2/u9aw-0s5t-9pxg-dse2-58um
+<br>```
+<br>
+Untuk video 720p:
+```bash<br>
+ffmpeg -stream_loop -1 -re -i /datasets/_deepnote_work/hati2musimhujan.mp4 -f flv -c:v libx264 -preset veryfast -b:v 4000k -maxrate 4000k -bufsize 8000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k rtmp://a.rtmp.youtube.com/live2/u9aw-0s5t-9pxg-dse2-58um
+<br>```
+<br>
+Untuk video 1080p:
+```bash<br>
+ffmpeg -stream_loop -1 -re -i /datasets/_deepnote_work/YvUMs.mp4 -f flv -c:v libx264 -preset veryfast -b:v 6800k -maxrate 6800k -bufsize 13600k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k rtmp://a.rtmp.youtube.com/live2/u9aw-0s5t-9pxg-dse2-58um
+<br>```
 <br>
 Untuk memulai live streaming di YouTube dengan timeout, misalnya ingin live 10 jam saja maka gunakan perintah berikut:
 ```bash<br>
 timeout 10h ffmpeg -stream_loop -1 -re -i /root/live.mp4 -f flv -c:v copy -c:a copy rtmp://a.rtmp.youtube.com/live2/your_StreamKey
-```
+<br>```
 
 <br>
 ### Penjelasan:
